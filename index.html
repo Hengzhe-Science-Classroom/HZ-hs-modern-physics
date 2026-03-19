@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Physics (High School) — Interactive</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <button id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+        <aside id="sidebar">
+            <div id="sidebar-header">
+                <h1>Modern Physics</h1>
+                <p class="author">Krane / 人教版 / 近代物理概论</p>
+                <div id="progress-container">
+                    <div id="progress-bar"><div id="progress-fill"></div></div>
+                    <span id="progress-text">0%</span>
+                </div>
+            </div>
+            <div id="search-container">
+                <input type="text" id="search-input" placeholder="Search topics...">
+            </div>
+            <nav id="chapter-nav"></nav>
+            <div id="sidebar-footer"><p class="copyright-notice" style="font-size:0.7rem;color:#888;margin-top:12px;text-align:center;">&copy; 2026 Hengzhe Zhao · AGPL-3.0 &amp; Commercial</p>
+                <button id="reset-progress">Reset Progress</button>
+            </div>
+        </aside>
+        <main id="main-content">
+            <div id="welcome-screen">
+                <div class="welcome-hero">
+                    <h1>Modern Physics</h1>
+                    <h2>Relativity, Quantum Mechanics, Atoms &amp; Nuclear Physics</h2>
+                    <p class="welcome-description">
+                        Bend time, split atoms, and see quantum weirdness.
+                        From Einstein's relativity to the Standard Model — the physics of the 20th century.
+                    </p>
+                </div>
+                <div class="roadmap">
+                    <h3>What You'll Explore</h3>
+                    <div class="roadmap-parts">
+                        <div class="roadmap-part">
+                            <h4>Part A: Special Relativity</h4>
+                            <ul>
+                                <li>Ch 0: The Speed of Light &amp; Einstein</li>
+                                <li>Ch 1: Time Dilation</li>
+                                <li>Ch 2: Length Contraction</li>
+                                <li>Ch 3: E = mc&sup2;</li>
+                            </ul>
+                        </div>
+                        <div class="roadmap-part">
+                            <h4>Part B: The Quantum World</h4>
+                            <ul>
+                                <li>Ch 4: Blackbody Radiation &amp; Planck</li>
+                                <li>Ch 5: The Photoelectric Effect</li>
+                                <li>Ch 6: Photons &amp; Compton Scattering</li>
+                                <li>Ch 7: Matter Waves &amp; de Broglie</li>
+                                <li>Ch 8: The Uncertainty Principle</li>
+                            </ul>
+                        </div>
+                        <div class="roadmap-part">
+                            <h4>Part C: Atomic Physics</h4>
+                            <ul>
+                                <li>Ch 9: Atomic Models: A History</li>
+                                <li>Ch 10: Rutherford Scattering</li>
+                                <li>Ch 11: Bohr Model &amp; Hydrogen Spectra</li>
+                                <li>Ch 12: Quantum Numbers &amp; Orbitals</li>
+                            </ul>
+                        </div>
+                        <div class="roadmap-part">
+                            <h4>Part D: Nuclear Physics</h4>
+                            <ul>
+                                <li>Ch 13: Nuclear Structure</li>
+                                <li>Ch 14: Radioactive Decay</li>
+                                <li>Ch 15: Nuclear Fission</li>
+                                <li>Ch 16: Nuclear Fusion</li>
+                                <li>Ch 17: Particle Physics Preview</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <p class="welcome-start">Select a chapter from the sidebar to explore the frontiers of physics!</p>
+            </div>
+            <div id="chapter-content" style="display:none;">
+                <div id="chapter-header">
+                    <div id="chapter-number-badge"></div>
+                    <h1 id="chapter-title"></h1>
+                    <p id="chapter-subtitle"></p>
+                </div>
+                <div id="section-tabs"></div>
+                <div id="section-content"></div>
+                <div id="exercises-panel" style="display:none;">
+                    <h3>Exercises</h3>
+                    <div id="exercises-list"></div>
+                </div>
+                <div id="chapter-nav-buttons">
+                    <button id="prev-btn">&larr; Previous</button>
+                    <span id="section-indicator"></span>
+                    <button id="next-btn">Next &rarr;</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <script>
+    window.CHAPTER_MANIFEST = [
+        {number:0,  id:'ch00', title:'The Speed of Light & Einstein',        file:'ch00-speed-of-light'},
+        {number:1,  id:'ch01', title:'Time Dilation',                        file:'ch01-time-dilation'},
+        {number:2,  id:'ch02', title:'Length Contraction',                   file:'ch02-length-contraction'},
+        {number:3,  id:'ch03', title:'E = mc²',                             file:'ch03-mass-energy'},
+        {number:4,  id:'ch04', title:'Blackbody Radiation & Planck',         file:'ch04-blackbody'},
+        {number:5,  id:'ch05', title:'The Photoelectric Effect',             file:'ch05-photoelectric'},
+        {number:6,  id:'ch06', title:'Photons & Compton Scattering',         file:'ch06-compton'},
+        {number:7,  id:'ch07', title:'Matter Waves & de Broglie',            file:'ch07-de-broglie'},
+        {number:8,  id:'ch08', title:'The Uncertainty Principle',            file:'ch08-uncertainty'},
+        {number:9,  id:'ch09', title:'Atomic Models: A History',             file:'ch09-atomic-models'},
+        {number:10, id:'ch10', title:'Rutherford Scattering',                file:'ch10-rutherford'},
+        {number:11, id:'ch11', title:'Bohr Model & Hydrogen Spectra',        file:'ch11-bohr'},
+        {number:12, id:'ch12', title:'Quantum Numbers & Orbitals',           file:'ch12-orbitals'},
+        {number:13, id:'ch13', title:'Nuclear Structure',                    file:'ch13-nucleus'},
+        {number:14, id:'ch14', title:'Radioactive Decay',                    file:'ch14-decay'},
+        {number:15, id:'ch15', title:'Nuclear Fission',                      file:'ch15-fission'},
+        {number:16, id:'ch16', title:'Nuclear Fusion',                       file:'ch16-fusion'},
+        {number:17, id:'ch17', title:'Particle Physics Preview',             file:'ch17-particles'}
+    ];
+    </script>
+    <script src="viz-engine.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
